@@ -9,6 +9,8 @@ module com.example.librarymanagementsystem {
     requires java.sql;
     requires mysql.connector.j;
 
+    requires jbcrypt;
+
     opens com.example.librarymanagementsystem to javafx.fxml;
     exports com.example.librarymanagementsystem;
     exports com.example.librarymanagementsystem.controller;

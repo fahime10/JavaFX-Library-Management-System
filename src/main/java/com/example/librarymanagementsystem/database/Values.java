@@ -2,7 +2,7 @@ package com.example.librarymanagementsystem.database;
 
 public class Values {
     public static final String USER_TABLE = "user";
-    public static final String BOOK_TABLE = "task";
+    public static final String BOOK_TABLE = "book";
 
     public static final String USER_ID = "user_id";
     public static final String FIRST_NAME = "first_name";
