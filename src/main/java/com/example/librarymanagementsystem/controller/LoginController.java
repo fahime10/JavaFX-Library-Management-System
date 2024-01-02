@@ -36,20 +36,22 @@ public class LoginController {
         error.setTitle("Error");
 
         loginSignupButton.setOnAction(event -> {
-            loginSignupButton.getScene().getWindow().hide();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/example/librarymanagementsystem/signup.fxml"));
-
-            try {
-                loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
+            switchScene("/com/example/librarymanagementsystem/signup.fxml");
         });
+    }
+
+    private void switchScene(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Stage currentStage = (Stage) loginSignupButton.getScene().getWindow();
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

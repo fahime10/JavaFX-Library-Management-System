@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #BDB5D5;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librarymanagementsystem.controller.SignupController">
+   <children>
+      <AnchorPane prefHeight="71.0" prefWidth="600.0" style="-fx-background-color: #CC5500;">
+         <children>
+            <Label layoutX="187.0" layoutY="22.0" text="Library Management System" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="71.0" prefHeight="35.0" prefWidth="600.0" style="-fx-background-color: #BB4400;">
+         <children>
+            <Label layoutX="260.0" layoutY="8.0" text="Sign up form" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <TextField fx:id="signupFirstName" layoutX="181.0" layoutY="121.0" prefHeight="25.0" prefWidth="247.0" promptText="First Name" />
+      <TextField fx:id="signupLastName" layoutX="181.0" layoutY="161.0" prefHeight="25.0" prefWidth="247.0" promptText="Last Name" />
+      <TextField fx:id="signupUsername" layoutX="181.0" layoutY="213.0" prefHeight="25.0" prefWidth="247.0" promptText="Username" />
+      <PasswordField fx:id="signupPassword" layoutX="181.0" layoutY="255.0" prefHeight="25.0" prefWidth="247.0" promptText="Password" />
+      <Button fx:id="signupSubmitButton" layoutX="180.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="247.0" style="-fx-background-color: #C21E56;" text="Submit" textFill="WHITE" />
+      <Button fx:id="backButton" layoutX="181.0" layoutY="360.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="247.0" style="-fx-background-color: #C21E56;" text="Back to login" textFill="WHITE" />
+   </children>
+</AnchorPane>
