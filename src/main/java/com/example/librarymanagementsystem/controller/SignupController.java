@@ -1,19 +1,24 @@
 package com.example.librarymanagementsystem.controller;
 
+import com.example.librarymanagementsystem.animations.Shaker;
 import com.example.librarymanagementsystem.database.DatabaseHandler;
 import com.example.librarymanagementsystem.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class SignupController {
+    @FXML
+    private AnchorPane window;
     @FXML
     private Button backButton;
 
@@ -34,42 +39,47 @@ public class SignupController {
 
     @FXML
     void initialize() {
+        SceneSwitcher sceneSwitcher = new SceneSwitcher();
         signupSubmitButton.setOnAction(event -> {
-            createUser();
+            boolean successful = createUser();
 
-            switchScene("/com/example/librarymanagementsystem/login.fxml");
+            if (successful) {
+                sceneSwitcher.switchScene(signupSubmitButton, "/com/example/librarymanagementsystem/login.fxml");
+            }
         });
 
         backButton.setOnAction(event -> {
-            switchScene("/com/example/librarymanagementsystem/login.fxml");
+            sceneSwitcher.switchScene(signupSubmitButton, "/com/example/librarymanagementsystem/login.fxml");
         });
     }
 
-    private void createUser() {
+    private boolean createUser() {
         DatabaseHandler databaseHandler = new DatabaseHandler();
+        Shaker shaker = new Shaker(window);
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle("Error");
+        boolean nonNull = false;
 
-        String firstName = signupFirstName.getText();
-        String lastName = signupLastName.getText();
-        String username = signupUsername.getText();
-        String password = signupPassword.getText();
+        if (signupFirstName.getText() != "" && signupLastName.getText() != ""  &&
+            signupUsername.getText() != "" && signupPassword.getText() != "") {
 
-        User user = new User(firstName, lastName, username, password);
+            String firstName = signupFirstName.getText();
+            String lastName = signupLastName.getText();
+            String username = signupUsername.getText();
+            String password = signupPassword.getText();
 
-        databaseHandler.addUser(user);
-    }
+            User user = new User(firstName, lastName, username, password);
 
-    private void switchScene(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource(fxmlPath));
-            Parent root = loader.load();
+            databaseHandler.addUser(user);
 
-            Stage currentStage = (Stage) signupSubmitButton.getScene().getWindow();
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
+            nonNull = true;
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            shaker.shake();
+            error.setContentText("Missing credentials...");
+            error.show();
         }
+
+        return nonNull;
     }
 }

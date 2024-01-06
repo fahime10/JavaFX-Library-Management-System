@@ -36,11 +36,13 @@ public class LoginController {
     @FXML
     void initialize() {
         databaseHandler = new DatabaseHandler();
+        Shaker shaker = new Shaker(window);
         Alert error = new Alert(Alert.AlertType.ERROR);
         error.setTitle("Error");
 
         loginSignupButton.setOnAction(event -> {
-            switchScene("/com/example/librarymanagementsystem/signup.fxml");
+            SceneSwitcher sceneSwitcher = new SceneSwitcher();
+            sceneSwitcher.switchScene(loginSignupButton, "/com/example/librarymanagementsystem/signup.fxml");
         });
 
         loginButton.setOnAction(event -> {
@@ -56,9 +58,9 @@ public class LoginController {
                     boolean passwordCorrect = user.checkPassword(user.getPassword(), result.getString(5));
 
                     if (passwordCorrect) {
-                        switchScene("/com/example/librarymanagementsystem/library_view.fxml");
+                        SceneSwitcher sceneSwitcher = new SceneSwitcher();
+                        sceneSwitcher.switchScene(loginButton, "/com/example/librarymanagementsystem/signup.fxml");
                     } else {
-                        Shaker shaker = new Shaker(window);
                         shaker.shake();
                         error.setContentText("User not found");
                         error.show();
@@ -67,26 +69,10 @@ public class LoginController {
             } catch (SQLException e) {
                 System.out.println("Something went wrong with the database...");
             } catch (NullPointerException e) {
-                Shaker shaker = new Shaker(window);
                 shaker.shake();
                 error.setContentText("No credentials have been provided");
                 error.show();
             }
         });
-    }
-
-    private void switchScene(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource(fxmlPath));
-            Parent root = loader.load();
-
-            Stage currentStage = (Stage) loginSignupButton.getScene().getWindow();
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

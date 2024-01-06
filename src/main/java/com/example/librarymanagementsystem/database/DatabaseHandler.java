@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.database;
 
+import com.example.librarymanagementsystem.model.Book;
 import com.example.librarymanagementsystem.model.User;
 
 import java.sql.*;
@@ -56,6 +57,42 @@ public class DatabaseHandler extends Configuration {
         }
 
         return result;
+    }
+
+    public ResultSet getAllBooks() {
+        ResultSet result = null;
+
+        String query = "SELECT * FROM " + Values.BOOK_TABLE;
+
+        try {
+            PreparedStatement preparedStatement = getDBConnection().prepareStatement(query);
+
+            result = preparedStatement.executeQuery();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public void addBook(Book book) {
+        String query = "INSERT INTO " + Values.BOOK_TABLE + "(" + Values.BOOK_TITLE + ", " +
+                       Values.BOOK_AUTHOR + ", " + Values.BOOK_AUTHOR + ", " + Values.BOOK_PAGES + ") " +
+                       "VALUES (?, ?, ?, ?)";
+
+        try {
+            PreparedStatement preparedStatement = getDBConnection().prepareStatement(query);
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getAuthor());
+            preparedStatement.setString(3, book.getDesc());
+            preparedStatement.setInt(4, book.getPages());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }
