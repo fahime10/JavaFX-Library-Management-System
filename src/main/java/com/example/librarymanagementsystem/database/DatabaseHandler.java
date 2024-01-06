@@ -41,13 +41,12 @@ public class DatabaseHandler extends Configuration {
         ResultSet result = null;
 
         if ((!user.getUsername().equals("") && !user.getPassword().equals(""))) {
-            String query = "SELECT * FROM " + Values.USER_TABLE + " WHERE " + Values.USERNAME +
-                           "=? " + " AND " + Values.PASSWORD + "=?";
+            String query = "SELECT * FROM " + Values.USER_TABLE + " WHERE " +
+                            Values.USERNAME + "=? ";
 
             try {
                 PreparedStatement preparedStatement = getDBConnection().prepareStatement(query);
                 preparedStatement.setString(1, user.getUsername());
-                preparedStatement.setString(2, user.getPassword());
 
                 result = preparedStatement.executeQuery();
 

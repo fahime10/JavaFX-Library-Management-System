@@ -1,6 +1,8 @@
 package com.example.librarymanagementsystem.controller;
 
+import com.example.librarymanagementsystem.animations.Shaker;
 import com.example.librarymanagementsystem.database.DatabaseHandler;
+import com.example.librarymanagementsystem.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginController {
     @FXML
@@ -37,6 +41,37 @@ public class LoginController {
 
         loginSignupButton.setOnAction(event -> {
             switchScene("/com/example/librarymanagementsystem/signup.fxml");
+        });
+
+        loginButton.setOnAction(event -> {
+            User user = new User();
+
+            user.setUsername(username.getText().trim());
+            user.setPassword(password.getText());
+
+            ResultSet result = databaseHandler.getUser(user);
+
+            try {
+                if (result.next()) {
+                    boolean passwordCorrect = user.checkPassword(user.getPassword(), result.getString(5));
+
+                    if (passwordCorrect) {
+                        switchScene("/com/example/librarymanagementsystem/library_view.fxml");
+                    } else {
+                        Shaker shaker = new Shaker(window);
+                        shaker.shake();
+                        error.setContentText("User not found");
+                        error.show();
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("Something went wrong with the database...");
+            } catch (NullPointerException e) {
+                Shaker shaker = new Shaker(window);
+                shaker.shake();
+                error.setContentText("No credentials have been provided");
+                error.show();
+            }
         });
     }
 

@@ -22,7 +22,7 @@ public class User {
         return BCrypt.hashpw(password, BCrypt.gensalt(12));
     }
 
-    public static boolean checkPassword(String password, String hashedPassword) {
+    public boolean checkPassword(String password, String hashedPassword) {
         return BCrypt.checkpw(password, hashedPassword);
     }
 
@@ -57,8 +57,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
-
-
 }
