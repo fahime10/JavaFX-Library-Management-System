@@ -78,7 +78,7 @@ public class DatabaseHandler extends Configuration {
 
     public void addBook(Book book) {
         String query = "INSERT INTO " + Values.BOOK_TABLE + "(" + Values.BOOK_TITLE + ", " +
-                       Values.BOOK_AUTHOR + ", " + Values.BOOK_AUTHOR + ", " + Values.BOOK_PAGES + ") " +
+                       Values.BOOK_AUTHOR + ", " + Values.BOOK_DESCRIPTION + ", " + Values.BOOK_PAGES + ") " +
                        "VALUES (?, ?, ?, ?)";
 
         try {

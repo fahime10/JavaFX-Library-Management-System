@@ -6,6 +6,15 @@ public class Book {
     private String desc;
     private int pages;
 
+    public Book() {}
+
+    public Book(String title, String author, String desc, int pages) {
+        this.title = title;
+        this.author = author;
+        this.desc = desc;
+        this.pages = pages;
+    }
+
     public String getTitle() {
         return title;
     }

@@ -4,14 +4,9 @@ import com.example.librarymanagementsystem.animations.Shaker;
 import com.example.librarymanagementsystem.database.DatabaseHandler;
 import com.example.librarymanagementsystem.model.User;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -59,7 +54,7 @@ public class LoginController {
 
                     if (passwordCorrect) {
                         SceneSwitcher sceneSwitcher = new SceneSwitcher();
-                        sceneSwitcher.switchScene(loginButton, "/com/example/librarymanagementsystem/signup.fxml");
+                        sceneSwitcher.switchScene(loginButton, "/com/example/librarymanagementsystem/library_view_empty.fxml");
                     } else {
                         shaker.shake();
                         error.setContentText("User not found");

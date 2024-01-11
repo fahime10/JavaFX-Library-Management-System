@@ -4,17 +4,11 @@ import com.example.librarymanagementsystem.animations.Shaker;
 import com.example.librarymanagementsystem.database.DatabaseHandler;
 import com.example.librarymanagementsystem.model.User;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class SignupController {
     @FXML
