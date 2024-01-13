@@ -54,7 +54,8 @@ public class LoginController {
 
                     if (passwordCorrect) {
                         SceneSwitcher sceneSwitcher = new SceneSwitcher();
-                        sceneSwitcher.switchScene(loginButton, "/com/example/librarymanagementsystem/library_view_empty.fxml");
+                        sceneSwitcher.switchScene(loginButton, "/com/example/librarymanagementsystem/library_view.fxml");
+
                     } else {
                         shaker.shake();
                         error.setContentText("User not found");

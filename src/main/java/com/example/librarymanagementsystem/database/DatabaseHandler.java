@@ -62,7 +62,7 @@ public class DatabaseHandler extends Configuration {
     public ResultSet getAllBooks() {
         ResultSet result = null;
 
-        String query = "SELECT * FROM " + Values.BOOK_TABLE;
+        String query = "SELECT * FROM " + Values.BOOK_TABLE + " ORDER BY " + Values.BOOK_TITLE;
 
         try {
             PreparedStatement preparedStatement = getDBConnection().prepareStatement(query);
