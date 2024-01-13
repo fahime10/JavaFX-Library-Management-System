@@ -34,8 +34,12 @@ public class SignupController {
     @FXML
     void initialize() {
         SceneSwitcher sceneSwitcher = new SceneSwitcher();
+        Shaker shaker = new Shaker(window);
+
         signupSubmitButton.setOnAction(event -> {
-            boolean successful = createUser();
+            User newUser = new User();
+            boolean successful = newUser.createUser(signupFirstName.getText(), signupLastName.getText(),
+                    signupUsername.getText(), signupPassword.getText(), shaker);
 
             if (successful) {
                 sceneSwitcher.switchScene(signupSubmitButton, "/com/example/librarymanagementsystem/login.fxml");
@@ -45,35 +49,5 @@ public class SignupController {
         backButton.setOnAction(event -> {
             sceneSwitcher.switchScene(signupSubmitButton, "/com/example/librarymanagementsystem/login.fxml");
         });
-    }
-
-    private boolean createUser() {
-        DatabaseHandler databaseHandler = new DatabaseHandler();
-        Shaker shaker = new Shaker(window);
-        Alert error = new Alert(Alert.AlertType.ERROR);
-        error.setTitle("Error");
-        boolean nonNull = false;
-
-        if (signupFirstName.getText() != "" && signupLastName.getText() != ""  &&
-            signupUsername.getText() != "" && signupPassword.getText() != "") {
-
-            String firstName = signupFirstName.getText();
-            String lastName = signupLastName.getText();
-            String username = signupUsername.getText();
-            String password = signupPassword.getText();
-
-            User user = new User(firstName, lastName, username, password);
-
-            databaseHandler.addUser(user);
-
-            nonNull = true;
-
-        } else {
-            shaker.shake();
-            error.setContentText("Missing credentials...");
-            error.show();
-        }
-
-        return nonNull;
     }
 }

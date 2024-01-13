@@ -4,6 +4,8 @@ import com.example.librarymanagementsystem.animations.Shaker;
 import com.example.librarymanagementsystem.database.DatabaseHandler;
 import com.example.librarymanagementsystem.model.Book;
 import com.example.librarymanagementsystem.model.Library;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -11,7 +13,6 @@ import javafx.scene.layout.AnchorPane;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class BookController {
     @FXML
@@ -42,7 +43,7 @@ public class BookController {
     private Button editBookButton;
 
     @FXML
-    private ListView<String> bookListvew;
+    private ListView<Book> bookListview;
 
     @FXML
     private AnchorPane window;
@@ -55,7 +56,9 @@ public class BookController {
 
         if (bookCreate != null) {
             bookCreate.setOnAction(event -> {
-                boolean successful = createBook(databaseHandler, shaker);
+                Book newBook = new Book();
+                boolean successful = newBook.createBook(bookTitle.getText(), bookAuthor.getText(),
+                        bookDescription.getText(), bookPages.getText(), shaker);
 
                 if (successful) {
                     sceneSwitcher.switchScene(bookCreate, "/com/example/librarymanagementsystem/library_view.fxml");
@@ -63,30 +66,28 @@ public class BookController {
             });
 
             backButton.setOnAction(event ->
-                    sceneSwitcher.switchScene(backButton, "/com/example/librarymanagementsystem/login.fxml")
+                    sceneSwitcher.switchScene(backButton, "/com/example/librarymanagementsystem/library_view.fxml")
             );
 
         } else if (addBookButton != null) {
-            Library books = new Library();
+            Library library = new Library();
             Book currentBook;
 
-            ResultSet storedBooks = databaseHandler.getAllBooks();
+            ResultSet storedBooks = library.getAllBooks();
 
             try {
                 while (storedBooks.next()) {
-                    Book book = new Book(storedBooks.getString(2), storedBooks.getString(3),
-                            storedBooks.getString(4), storedBooks.getInt(5));
+                    Book book = new Book(storedBooks.getInt(1), storedBooks.getString(2),
+                            storedBooks.getString(3), storedBooks.getString(4), storedBooks.getInt(5));
 
-                    books.addBook(book);
+                    library.addBook(book);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
                 shaker.shake();
             }
 
-            for (int i = 0; i < books.getBooks().size(); i++) {
-                bookListvew.getItems().add(books.toString(i));
-            }
+            bookListview.getItems().addAll(library.getBooks());
 
             addBookButton.setOnAction(event ->
                     sceneSwitcher.switchScene(addBookButton, "/com/example/librarymanagementsystem/create_book.fxml")
@@ -100,33 +101,5 @@ public class BookController {
 
             });
         }
-    }
-
-    private boolean createBook(DatabaseHandler databaseHandler, Shaker shaker) {
-        Alert error = new Alert(Alert.AlertType.ERROR);
-        error.setTitle("Error");
-        boolean nonNull = false;
-
-        if (bookTitle.getText() != "" && bookAuthor.getText() != "" &&
-            bookDescription.getText() != "" && Integer.parseInt(bookPages.getText()) != 0) {
-
-            String title = bookTitle.getText();
-            String author = bookAuthor.getText();
-            String desc = bookDescription.getText();
-            int pages = Integer.parseInt(bookPages.getText());
-
-            Book book = new Book(title, author, desc, pages);
-
-            databaseHandler.addBook(book);
-
-            nonNull = true;
-
-        } else {
-            shaker.shake();
-            error.setContentText("Please fill in all fields");
-            error.show();
-        }
-
-        return nonNull;
     }
 }

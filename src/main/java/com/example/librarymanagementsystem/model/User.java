@@ -1,5 +1,8 @@
 package com.example.librarymanagementsystem.model;
 
+import com.example.librarymanagementsystem.animations.Shaker;
+import com.example.librarymanagementsystem.database.DatabaseHandler;
+import javafx.scene.control.Alert;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class User {
@@ -7,6 +10,8 @@ public class User {
     private String lastName;
     private String username;
     private String password;
+
+    private DatabaseHandler databaseHandler;
 
     public User() {}
 
@@ -56,5 +61,27 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean createUser(String firstName, String lastName, String username, String password, Shaker shaker) {
+        databaseHandler = new DatabaseHandler();
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle("Error");
+        boolean nonNull = false;
+
+        if (firstName != "" && lastName != ""  && username != "" && password != "") {
+            User user = new User(firstName, lastName, username, password);
+
+            databaseHandler.addUser(user);
+
+            nonNull = true;
+
+        } else {
+            shaker.shake();
+            error.setContentText("Missing credentials...");
+            error.show();
+        }
+
+        return nonNull;
     }
 }

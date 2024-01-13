@@ -26,7 +26,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <ListView fx:id="bookListvew" layoutY="154.0" prefHeight="245.0" prefWidth="600.0" />
+      <ListView fx:id="bookListview" layoutY="154.0" prefHeight="245.0" prefWidth="600.0" />
       <Button fx:id="addBookButton" layoutX="46.0" layoutY="115.0" mnemonicParsing="false" style="-fx-background-color: #C21E56;" text="Add Book" textFill="WHITE">
          <font>
             <Font size="13.0" />
